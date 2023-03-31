@@ -4,7 +4,6 @@ using Microsoft.Xrm.Sdk.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Text;
 
 namespace PluginSandbox
 {
@@ -47,7 +46,7 @@ namespace PluginSandbox
                     string richText;
                     if (entity.TryGetAttributeValue<string>(att, out richText))
                     {
-                        entity[att] = HTMLToText(richText);
+                        entity[att] = RemoveHtml(richText);
                     }
                 }
             }
@@ -90,48 +89,25 @@ namespace PluginSandbox
         /// <summary>
         /// Converts HTML to plain text by removing the HTML tags and formatting.
         /// </summary>
-        /// <param name="HTMLCode">The text to convert.</param>
+        /// <param name="input">The text to convert.</param>
         /// <returns>The specified content as plain text.</returns>
-        private string HTMLToText(string HTMLCode)
+        public static string RemoveHtml(string input)
         {
-            // Source : https://beansoftware.com/ASP.NET-Tutorials/Convert-HTML-To-Plain-Text.aspx
-            // Remove new lines since they are not visible in HTML
-            HTMLCode = HTMLCode.Replace("\n", " ");
-
-            // Remove tab spaces
-            HTMLCode = HTMLCode.Replace("\t", " ");
-
-            // Remove multiple white spaces from HTML
-            HTMLCode = Regex.Replace(HTMLCode, "\\s+", " ");
-
-            // Remove HEAD tag
-            HTMLCode = Regex.Replace(HTMLCode, "<head.*?</head>", ""
-                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-            // Remove any JavaScript
-            HTMLCode = Regex.Replace(HTMLCode, "<script.*?</script>", ""
-              , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-            // Replace special characters like &, <, >, " etc.
-            StringBuilder sbHTML = new StringBuilder(HTMLCode);
-            // Note: There are many more special characters, these are just
-            // most common. You can add new characters in this arrays if needed
-            string[] OldWords = {"&nbsp;", "&amp;", "&quot;", "&lt;",
-   "&gt;", "&reg;", "&copy;", "&bull;", "&trade;"};
-            string[] NewWords = { " ", "&", "\"", "<", ">", "Â®", "Â©", "â€¢", "â„¢" };
-            for (int i = 0; i < OldWords.Length; i++)
-            {
-                sbHTML.Replace(OldWords[i], NewWords[i]);
-            }
-
-            // Check if there are line breaks (<br>) or paragraph (<p>)
-            sbHTML.Replace("<br>", "\n<br>");
-            sbHTML.Replace("<br ", "\n<br ");
-            sbHTML.Replace("<p ", "\n<p ");
-
-            // Finally, remove all HTML tags and return plain text
-            return System.Text.RegularExpressions.Regex.Replace(
-              sbHTML.ToString(), "<[^>]*>", "");
+            string output = Regex.Replace(input, "<.*?>", string.Empty); // Remove HTML tags
+            output = Regex.Replace(output, @"&nbsp;|&#160;", " "); // Replace &nbsp; and &#160; with a space
+            output = Regex.Replace(output, @"&amp;|&#38;", "&"); // Replace &amp; and &#38; with &
+            output = Regex.Replace(output, @"&lt;|&#60;", "<"); // Replace &lt; and &#60; with <
+            output = Regex.Replace(output, @"&gt;|&#62;", ">"); // Replace &gt; and &#62; with >
+            output = Regex.Replace(output, @"&quot;|&#34;", "\""); // Replace &quot; and &#34; with "
+            output = Regex.Replace(output, @"&apos;|&#39;", "'"); // Replace &apos; and &#39; with '
+            output = Regex.Replace(output, @"&cent;|&#162;", "¢"); // Replace &cent; and &#162; with ¢
+            output = Regex.Replace(output, @"&pound;|&#163;", "£"); // Replace &pound; and &#163; with £
+            output = Regex.Replace(output, @"&yen;|&#165;", "¥"); // Replace &yen; and &#165; with ¥
+            output = Regex.Replace(output, @"&euro;|&#8364;", "€"); // Replace &euro; and &#8364; with €
+            output = Regex.Replace(output, @"&copy;|&#169;", "©"); // Replace &copy; and &#169; with ©
+            output = Regex.Replace(output, @"&reg;|&#174;", "®"); // Replace &reg; and &#174; with ®
+            output = Regex.Replace(output, @"&trade;|&#8482;", "™"); // Replace &trade; and &#8482; with ™
+            return output;
         }
     }
 }
