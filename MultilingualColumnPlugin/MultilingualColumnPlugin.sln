@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultilingualColumnPlugin", "MultilingualColumnPlugin.csproj", "{C96A6304-5431-4CF8-AE10-101ED3EBBE8C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C96A6304-5431-4CF8-AE10-101ED3EBBE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96A6304-5431-4CF8-AE10-101ED3EBBE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96A6304-5431-4CF8-AE10-101ED3EBBE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96A6304-5431-4CF8-AE10-101ED3EBBE8C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3E01B0B-1B77-49A4-9F63-8A30A54D33BE}
+	EndGlobalSection
+EndGlobal
